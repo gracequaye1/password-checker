@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Check how strong your password is and get tips to improve it. Everything stays in your browser.">
+  <meta name="theme-color" content="#170d24">
+  <title>Password Strength Checker | Duchess Tech Space</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="script.js" defer></script>
+</head>
+<body>
+
+  <header class="site-header">
+    <span class="brand">THE DUCHESS TECH SPACE</span>
+    <span class="header-tag">CYBER AWARENESS</span>
+  </header>
+
+  <main>
+    <section class="intro">
+      <p class="eyebrow">STRONG PASSWORDS PROTECT YOU</p>
+      <h1>Password <span>Strength</span> Checker</h1>
+      <p class="subtitle">Type a password and watch the score change. Get instant tips to make it stronger.</p>
+    </section>
+
+    <section class="checker-card">
+      <label for="password">Try a password</label>
+
+      <div class="input-row">
+        <input
+          type="password"
+          id="password"
+          placeholder="Type a password to test..."
+          autocomplete="off"
+          spellcheck="false"
+        >
+        <button id="toggle-btn" type="button" aria-pressed="false">SHOW</button>
+      </div>
+
+      <div class="meter-track" role="progressbar" aria-label="Password strength" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" id="meter">
+        <div id="meter-fill" class="meter-fill"></div>
+      </div>
+
+      <p id="strength-label" class="strength-label" aria-live="polite">Start typing to check your password</p>
+
+      <h2>Checklist</h2>
+      <ul class="rules">
+        <li id="rule-length">At least 12 characters</li>
+        <li id="rule-lower">A lowercase letter (a-z)</li>
+        <li id="rule-upper">An uppercase letter (A-Z)</li>
+        <li id="rule-number">A number (0-9)</li>
+        <li id="rule-symbol">A symbol (such as ! @ # $)</li>
+        <li id="rule-common">No common words or patterns</li>
+      </ul>
+
+      <h2>Tips for you</h2>
+      <ul id="tips-list" class="tips" aria-live="polite">
+        <li>Your tips will appear here as you type.</li>
+      </ul>
+
+      <p class="privacy">🔒 <strong>Your password never leaves this page.</strong> Nothing is sent, saved or stored anywhere. Even so, never type your real passwords into any website you do not trust. Use a made-up one to practise.</p>
+    </section>
+
+    <section class="advice">
+      <p class="eyebrow">GOOD HABITS</p>
+      <h2>Build a Stronger Password</h2>
+
+      <div class="advice-grid">
+        <article class="advice-card">
+          <span>🧠</span>
+          <h3>Use a passphrase</h3>
+          <p>Four or more random words, like a short sentence only you would remember, are long and easy to recall.</p>
+        </article>
+
+        <article class="advice-card">
+          <span>🚫</span>
+          <h3>Never reuse passwords</h3>
+          <p>If one site is hacked, reused passwords let attackers try the same one everywhere else.</p>
+        </article>
+
+        <article class="advice-card">
+          <span>🗝️</span>
+          <h3>Use a password manager</h3>
+          <p>A trusted password manager can create and remember long, unique passwords for you.</p>
+        </article>
+
+        <article class="advice-card">
+          <span>📱</span>
+          <h3>Turn on 2-step login</h3>
+          <p>Even a strong password is safer with a second check. Never share your OTP with anyone.</p>
+        </article>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <p>© 2026 The Duchess of Hackers. An educational cybersecurity awareness project.</p>
+    <p class="footer-brand">THINK BEFORE YOU CLICK.</p>
+  </footer>
+
+</body>
+</html>
