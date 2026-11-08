@@ -34,8 +34,11 @@ const levels = [
 const passwordInput = document.getElementById("password");
 const toggleBtn = document.getElementById("toggle-btn");
 const meter = document.getElementById("meter");
-const meterFill = document.getElementById("meter-fill");
-const strengthLabel = document.getElementById("strength-label");
+const segments = document.querySelectorAll(".segment");
+const strengthText = document.getElementById("strength-text");
+const percentBadge = document.getElementById("percent-badge");
+const gaugeNeedle = document.getElementById("gauge-needle");
+const gaugeLabel = document.getElementById("gauge-label");
 const tipsList = document.getElementById("tips-list");
 
 const ruleItems = {
@@ -151,7 +154,7 @@ function getLevel(score) {
 
 // 5. BUILD THE TIPS
 
-function buildTips(password, result) {
+function buildTips(result) {
   const tips = [];
   const c = result.checks;
 
@@ -205,13 +208,21 @@ function showTips(tips) {
 }
 
 function resetPage() {
-  meterFill.style.width = "0%";
-  meterFill.className = "meter-fill";
+  segments.forEach(function (segment) {
+    segment.classList.remove("on");
+  });
 
   meter.setAttribute("aria-valuenow", 0);
 
-  strengthLabel.textContent = "Start typing to check your password";
-  strengthLabel.className = "strength-label";
+  strengthText.textContent = "Start typing";
+  strengthText.className = "strength-value";
+
+  percentBadge.hidden = true;
+
+  gaugeNeedle.style.transform = "rotate(-90deg)";
+
+  gaugeLabel.textContent = "-";
+  gaugeLabel.className = "gauge-label";
 
   Object.keys(ruleItems).forEach(function (key) {
     ruleItems[key].classList.remove("met");
@@ -231,20 +242,30 @@ function updatePage() {
   const result = analyse(password);
   const level = getLevel(result.score);
 
-  meterFill.style.width = Math.max(result.score, 5) + "%";
-  meterFill.className = "meter-fill level-" + level;
+  segments.forEach(function (segment, index) {
+    segment.classList.toggle("on", index <= level);
+  });
 
   meter.setAttribute("aria-valuenow", result.score);
 
-  strengthLabel.textContent =
-    "Strength: " + levels[level] + " (" + result.score + "/100)";
-  strengthLabel.className = "strength-label level-" + level;
+  strengthText.textContent = levels[level];
+  strengthText.className = "strength-value level-" + level;
+
+  percentBadge.hidden = false;
+  percentBadge.textContent = result.score + "%";
+  percentBadge.className = "percent-badge level-" + level;
+
+  const angle = -90 + result.score * 1.8;
+  gaugeNeedle.style.transform = "rotate(" + angle + "deg)";
+
+  gaugeLabel.textContent = levels[level].toUpperCase();
+  gaugeLabel.className = "gauge-label level-" + level;
 
   Object.keys(ruleItems).forEach(function (key) {
     ruleItems[key].classList.toggle("met", result.checks[key]);
   });
 
-  showTips(buildTips(password, result));
+  showTips(buildTips(result));
 }
 
 // 7. EVENTS
@@ -264,3 +285,249 @@ toggleBtn.addEventListener("click", function () {
 });
 
 resetPage();
+
+// ============================================
+// WELCOME SCREEN AND GAME
+// ============================================
+
+// 1. GAME DATA (examples only, not real passwords)
+
+const gameRounds = [
+  {
+    strong: "Mango-Drum-Lantern-42",
+    weak: "ghana123",
+    why: "Length wins! Four random words plus a number is long and hard to guess. \"ghana123\" uses a place name and an easy number."
+  },
+  {
+    strong: "sunrise-coffee-river-moon",
+    weak: "P@ssw0rd",
+    why: "\"P@ssw0rd\" swaps letters for symbols, but attackers know that trick well. A long passphrase of random words is much stronger."
+  },
+  {
+    strong: "7!kLm#9vQz2$",
+    weak: "Qwerty2024!",
+    why: "\"Qwerty\" is a keyboard pattern and the year is easy to guess. A random mix with no pattern is far harder to crack."
+  }
+];
+
+const greetingMessage =
+  "Hi! I'm the Duchess of Hackers 👑 Welcome to my Password Lab. Ready to test how strong your password really is?";
+
+// 2. GET HTML ELEMENTS
+
+const welcomeScreen = document.getElementById("welcome-screen");
+const checkerScreen = document.getElementById("checker-screen");
+const greeting = document.getElementById("greeting");
+
+const typedText = document.getElementById("typed-text");
+const nicknameInput = document.getElementById("nickname");
+
+const introStep = document.getElementById("intro-step");
+const gameStep = document.getElementById("game-step");
+const doneStep = document.getElementById("done-step");
+
+const playBtn = document.getElementById("play-btn");
+const skipBtn = document.getElementById("skip-btn");
+
+const roundLabel = document.getElementById("round-label");
+const optionLeft = document.getElementById("option-left");
+const optionRight = document.getElementById("option-right");
+const gameFeedback = document.getElementById("game-feedback");
+const gameNextBtn = document.getElementById("game-next");
+
+const doneTitle = document.getElementById("done-title");
+const doneText = document.getElementById("done-text");
+const enterBtn = document.getElementById("enter-btn");
+
+// 3. GAME VARIABLES
+
+let playerName = "friend";
+let currentRound = 0;
+let gameScore = 0;
+let correctSide = "left";
+let typingTimer = null;
+
+const prefersReducedMotion = window.matchMedia(
+  "(prefers-reduced-motion: reduce)"
+).matches;
+
+// 4. TYPING EFFECT
+
+function typeText(element, text) {
+  clearInterval(typingTimer);
+
+  element.textContent = "";
+
+  if (prefersReducedMotion) {
+    element.textContent = text;
+    return;
+  }
+
+  // Array.from keeps emoji whole instead of splitting them.
+  const characters = Array.from(text);
+  let index = 0;
+
+  typingTimer = setInterval(function () {
+    element.textContent += characters[index];
+    index++;
+
+    if (index >= characters.length) {
+      clearInterval(typingTimer);
+    }
+  }, 35);
+}
+
+// 5. MOVING BETWEEN STEPS
+
+function showStep(step) {
+  introStep.hidden = true;
+  gameStep.hidden = true;
+  doneStep.hidden = true;
+
+  step.hidden = false;
+}
+
+function readName() {
+  const name = nicknameInput.value.trim();
+
+  playerName = name === "" ? "friend" : name;
+}
+
+function enterChecker() {
+  welcomeScreen.hidden = true;
+  checkerScreen.hidden = false;
+
+  // textContent is safe: it shows the name as plain text only.
+  greeting.textContent =
+    "Welcome, " + playerName + "! 👑 Type a made-up password below and watch it get scored.";
+
+  greeting.hidden = false;
+
+  window.scrollTo({
+    top: 0,
+    behavior: prefersReducedMotion ? "auto" : "smooth"
+  });
+
+  passwordInput.focus();
+}
+
+// 6. THE GAME
+
+function startGame() {
+  readName();
+
+  currentRound = 0;
+  gameScore = 0;
+
+  showStep(gameStep);
+  showRound();
+
+  typeText(typedText, "Let's play, " + playerName + "! Pick the stronger password each time. 🎮");
+}
+
+function showRound() {
+  const round = gameRounds[currentRound];
+
+  // Randomly decide which side holds the strong password.
+  correctSide = Math.random() < 0.5 ? "left" : "right";
+
+  optionLeft.textContent = correctSide === "left" ? round.strong : round.weak;
+  optionRight.textContent = correctSide === "right" ? round.strong : round.weak;
+
+  optionLeft.className = "game-option";
+  optionRight.className = "game-option";
+
+  optionLeft.disabled = false;
+  optionRight.disabled = false;
+
+  roundLabel.textContent =
+    "ROUND " + (currentRound + 1) + " OF " + gameRounds.length;
+
+  gameFeedback.hidden = true;
+  gameNextBtn.hidden = true;
+
+  gameNextBtn.textContent =
+    currentRound === gameRounds.length - 1 ? "FINISH 🏁" : "NEXT ROUND →";
+}
+
+function chooseOption(side) {
+  optionLeft.disabled = true;
+  optionRight.disabled = true;
+
+  const isCorrect = side === correctSide;
+
+  if (isCorrect) {
+    gameScore++;
+  }
+
+  const correctButton = correctSide === "left" ? optionLeft : optionRight;
+  const chosenButton = side === "left" ? optionLeft : optionRight;
+
+  correctButton.classList.add("correct");
+
+  if (!isCorrect) {
+    chosenButton.classList.add("wrong");
+  }
+
+  gameFeedback.textContent =
+    (isCorrect ? "🎉 Nice one! " : "💡 Not quite. ") + gameRounds[currentRound].why;
+
+  gameFeedback.hidden = false;
+  gameNextBtn.hidden = false;
+}
+
+function finishGame() {
+  showStep(doneStep);
+
+  if (gameScore === gameRounds.length) {
+    doneTitle.textContent = "🏆 Perfect score, " + playerName + "!";
+    doneText.textContent = "You already think like a defender. Let's see how your own password does.";
+  } else if (gameScore >= 2) {
+    doneTitle.textContent = "🔥 Great job, " + playerName + "!";
+    doneText.textContent = "You spotted most of the tricks. Time to test a password.";
+  } else {
+    doneTitle.textContent = "💜 Good start, " + playerName + "!";
+    doneText.textContent = "Now you know the tricks. Let's put them to work in the checker.";
+  }
+
+  typeText(typedText, "You scored " + gameScore + "/" + gameRounds.length + "! Ready for the Password Lab? 🔓");
+}
+
+// 7. EVENTS
+
+playBtn.addEventListener("click", startGame);
+
+skipBtn.addEventListener("click", function () {
+  readName();
+  enterChecker();
+});
+
+nicknameInput.addEventListener("keydown", function (event) {
+  if (event.key === "Enter") {
+    startGame();
+  }
+});
+
+optionLeft.addEventListener("click", function () {
+  chooseOption("left");
+});
+
+optionRight.addEventListener("click", function () {
+  chooseOption("right");
+});
+
+gameNextBtn.addEventListener("click", function () {
+  currentRound++;
+
+  if (currentRound < gameRounds.length) {
+    showRound();
+  } else {
+    finishGame();
+  }
+});
+
+enterBtn.addEventListener("click", enterChecker);
+
+// 8. START: THE DUCHESS SAYS HELLO
+
+typeText(typedText, greetingMessage);

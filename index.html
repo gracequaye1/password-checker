@@ -3,9 +3,9 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Check how strong your password is and get tips to improve it. Everything stays in your browser.">
-  <meta name="theme-color" content="#170d24">
-  <title>Password Strength Checker | Duchess Tech Space</title>
+  <meta name="description" content="Meet the Duchess of Hackers, play a quick game, then check how strong your password is. Everything stays in your browser.">
+  <meta name="theme-color" content="#0b0f3a">
+  <title>Password Lab | Duchess Tech Space</title>
   <link rel="stylesheet" href="style.css">
   <script src="script.js" defer></script>
 </head>
@@ -17,80 +17,193 @@
   </header>
 
   <main>
-    <section class="intro">
-      <p class="eyebrow">STRONG PASSWORDS PROTECT YOU</p>
-      <h1>Password <span>Strength</span> Checker</h1>
-      <p class="subtitle">Type a password and watch the score change. Get instant tips to make it stronger.</p>
-    </section>
 
-    <section class="checker-card">
-      <label for="password">Try a password</label>
+    <!-- WELCOME SCREEN -->
 
-      <div class="input-row">
+    <section id="welcome-screen" class="welcome">
+
+      <div class="duchess-avatar" aria-hidden="true">DH</div>
+
+      <p class="sr-only">Hi! I'm the Duchess of Hackers. Welcome to my Password Lab. Ready to test how strong your password really is?</p>
+
+      <div class="bubble" aria-hidden="true">
+        <span id="typed-text"></span><span class="caret"></span>
+      </div>
+
+      <!-- Step 1: meet the Duchess -->
+      <div id="intro-step" class="step">
+        <label for="nickname">What should I call you?</label>
         <input
-          type="password"
-          id="password"
-          placeholder="Type a password to test..."
-          autocomplete="off"
-          spellcheck="false"
+          id="nickname"
+          type="text"
+          maxlength="20"
+          placeholder="Your nickname (optional)"
+          autocomplete="nickname"
         >
-        <button id="toggle-btn" type="button" aria-pressed="false">SHOW</button>
+
+        <div class="welcome-buttons">
+          <button id="play-btn" class="big-btn" type="button">🎮 PLAY A QUICK GAME</button>
+          <button id="skip-btn" class="ghost-btn" type="button">SKIP TO THE CHECKER →</button>
+        </div>
       </div>
 
-      <div class="meter-track" role="progressbar" aria-label="Password strength" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" id="meter">
-        <div id="meter-fill" class="meter-fill"></div>
+      <!-- Step 2: the game -->
+      <div id="game-step" class="step" hidden>
+        <p id="round-label" class="eyebrow"></p>
+        <h2>Which password is stronger?</h2>
+
+        <div class="options">
+          <button id="option-left" class="game-option" type="button"></button>
+          <button id="option-right" class="game-option" type="button"></button>
+        </div>
+
+        <p id="game-feedback" class="game-feedback" aria-live="polite" hidden></p>
+
+        <button id="game-next" class="big-btn" type="button" hidden>NEXT ROUND →</button>
+
+        <p class="game-note">These are examples for the game, not real passwords.</p>
       </div>
 
-      <p id="strength-label" class="strength-label" aria-live="polite">Start typing to check your password</p>
+      <!-- Step 3: game finished -->
+      <div id="done-step" class="step" hidden>
+        <h2 id="done-title"></h2>
+        <p id="done-text"></p>
+        <button id="enter-btn" class="big-btn" type="button">🔓 ENTER THE PASSWORD LAB</button>
+      </div>
 
-      <h2>Checklist</h2>
-      <ul class="rules">
-        <li id="rule-length">At least 12 characters</li>
-        <li id="rule-lower">A lowercase letter (a-z)</li>
-        <li id="rule-upper">An uppercase letter (A-Z)</li>
-        <li id="rule-number">A number (0-9)</li>
-        <li id="rule-symbol">A symbol (such as ! @ # $)</li>
-        <li id="rule-common">No common words or patterns</li>
-      </ul>
-
-      <h2>Tips for you</h2>
-      <ul id="tips-list" class="tips" aria-live="polite">
-        <li>Your tips will appear here as you type.</li>
-      </ul>
-
-      <p class="privacy">🔒 <strong>Your password never leaves this page.</strong> Nothing is sent, saved or stored anywhere. Even so, never type your real passwords into any website you do not trust. Use a made-up one to practise.</p>
     </section>
 
-    <section class="advice">
-      <p class="eyebrow">GOOD HABITS</p>
-      <h2>Build a Stronger Password</h2>
 
-      <div class="advice-grid">
-        <article class="advice-card">
-          <span>🧠</span>
-          <h3>Use a passphrase</h3>
-          <p>Four or more random words, like a short sentence only you would remember, are long and easy to recall.</p>
-        </article>
+    <!-- CHECKER SCREEN -->
 
-        <article class="advice-card">
-          <span>🚫</span>
-          <h3>Never reuse passwords</h3>
-          <p>If one site is hacked, reused passwords let attackers try the same one everywhere else.</p>
-        </article>
+    <div id="checker-screen" hidden>
 
-        <article class="advice-card">
-          <span>🗝️</span>
-          <h3>Use a password manager</h3>
-          <p>A trusted password manager can create and remember long, unique passwords for you.</p>
-        </article>
+      <p id="greeting" class="greeting" hidden></p>
 
-        <article class="advice-card">
-          <span>📱</span>
-          <h3>Turn on 2-step login</h3>
-          <p>Even a strong password is safer with a second check. Never share your OTP with anyone.</p>
-        </article>
-      </div>
-    </section>
+      <section class="hero">
+
+        <div class="hero-left">
+          <h1>PASSWORD <span>CHECKER</span></h1>
+          <div class="underline"></div>
+          <p class="hero-sub">Check Your <span>Password</span> Strength</p>
+
+          <ul class="feature-list">
+            <li>Instant Strength Analysis</li>
+            <li>Identify Weak Passwords</li>
+            <li>Get Security Suggestions</li>
+            <li>Create Strong, Secure Passwords</li>
+          </ul>
+
+          <div class="promo">
+            <div class="promo-icon">🛡️</div>
+            <div>
+              <h3>Stronger Passwords, <span>Stronger Security</span></h3>
+              <p>Protect your account and your data.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="checker-card">
+
+          <div class="card-head">
+            <div class="shield-badge">✔</div>
+            <h2>Password Strength <span>Checker</span></h2>
+          </div>
+
+          <label for="password" class="sr-only">Try a password</label>
+
+          <div class="input-row">
+            <span class="lock" aria-hidden="true">🔒</span>
+            <input
+              type="password"
+              id="password"
+              placeholder="Type a password to test..."
+              autocomplete="off"
+              spellcheck="false"
+            >
+            <button id="toggle-btn" type="button" aria-pressed="false">SHOW</button>
+          </div>
+
+          <div class="strength-row">
+            <p>Strength: <strong id="strength-text" class="strength-value" aria-live="polite">Start typing</strong></p>
+            <span id="percent-badge" class="percent-badge" hidden>0%</span>
+          </div>
+
+          <div id="meter" class="segments" role="progressbar" aria-label="Password strength" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+            <span class="segment"></span>
+            <span class="segment"></span>
+            <span class="segment"></span>
+            <span class="segment"></span>
+            <span class="segment"></span>
+          </div>
+
+          <ul class="rules">
+            <li id="rule-length">12+ Characters</li>
+            <li id="rule-number">Numbers</li>
+            <li id="rule-upper">Uppercase Letters</li>
+            <li id="rule-symbol">Special Characters</li>
+            <li id="rule-lower">Lowercase Letters</li>
+            <li id="rule-common">No Common Patterns</li>
+          </ul>
+
+          <div class="gauge-wrap">
+            <div class="gauge">
+              <div class="gauge-arc"></div>
+              <div id="gauge-needle" class="gauge-needle"></div>
+            </div>
+            <p id="gauge-label" class="gauge-label">-</p>
+          </div>
+
+          <h3 class="tips-title">Tips for you</h3>
+          <ul id="tips-list" class="tips" aria-live="polite">
+            <li>Your tips will appear here as you type.</li>
+          </ul>
+
+          <p class="privacy">🔒 <strong>Your password never leaves this page.</strong> Nothing is sent, saved or stored. Even so, practise with made-up passwords, never your real ones.</p>
+
+        </div>
+
+      </section>
+
+      <section class="trust-bar">
+        <span>🛡️ Secure</span>
+        <span>✔ Reliable</span>
+        <span>⚡ Instant Results</span>
+      </section>
+
+      <section class="advice">
+        <p class="eyebrow">GOOD HABITS</p>
+        <h2>Build a Stronger Password</h2>
+
+        <div class="advice-grid">
+          <article class="advice-card">
+            <span>🧠</span>
+            <h3>Use a passphrase</h3>
+            <p>Four or more random words, like a short sentence only you would remember, are long and easy to recall.</p>
+          </article>
+
+          <article class="advice-card">
+            <span>🚫</span>
+            <h3>Never reuse passwords</h3>
+            <p>If one site is hacked, reused passwords let attackers try the same one everywhere else.</p>
+          </article>
+
+          <article class="advice-card">
+            <span>🗝️</span>
+            <h3>Use a password manager</h3>
+            <p>A trusted password manager can create and remember long, unique passwords for you.</p>
+          </article>
+
+          <article class="advice-card">
+            <span>📱</span>
+            <h3>Turn on 2-step login</h3>
+            <p>Even a strong password is safer with a second check. Never share your OTP with anyone.</p>
+          </article>
+        </div>
+      </section>
+
+    </div>
+
   </main>
 
   <footer>
