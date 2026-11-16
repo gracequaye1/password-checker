@@ -1,14 +1,14 @@
-# 🔐 Password Strength Checker
+#  Password Strength Checker
 
 **A simple, interactive tool that helps you understand how strong your password is and what you can do to make it stronger.**
 
 Built by **Grace Okailey Quaye (The Duchess of Hackers)** as part of the **Duchess Tech Space** cybersecurity awareness initiative.
 
-🔗 **Live Demo:** [Password Strength Checker](https://gracequaye1.github.io/password-checker/)
+ **Live Demo:** [Password Strength Checker](https://gracequaye1.github.io/password-checker/)
 
 ---
 
-## 📌 About the Project
+##  About the Project
 
 Passwords are one of the first lines of defence when it comes to protecting our digital accounts. Yet, many people still use passwords that are easy to guess, predictable, or simply not strong enough.
 
@@ -20,7 +20,7 @@ This isn't just about displaying a strength score. It's about helping people und
 
 ---
 
-## ✨ Features
+##  Features
 
 The application includes several checks designed to evaluate different aspects of password strength.
 
@@ -96,7 +96,7 @@ This project was built using core web technologies without relying on external l
 
 ---
 
-## ⚙️ How It Works
+##  How It Works
 
 The Password Strength Checker evaluates the password using a set of predefined rules.
 
@@ -117,7 +117,7 @@ Everything happens dynamically in the browser, without requiring a page refresh.
 
 ---
 
-## 🔒 Privacy and Security
+##  Privacy and Security
 
 Privacy was an important consideration when building this project.
 
@@ -193,7 +193,7 @@ Beyond the technical aspects, this project reminded me that cybersecurity educat
 
 ---
 
-## ⚠️ Important Security Disclaimer
+##  Important Security Disclaimer
 
 This application is an educational tool designed to demonstrate basic password-strength evaluation.
 
@@ -217,7 +217,7 @@ Remember: A password strength checker is a helpful starting point, not a guarant
 
 ---
 
-## 👑 About the Developer
+##  About the Developer
 
 **Grace Okailey Quaye — The Duchess of Hackers**
 
@@ -231,10 +231,10 @@ This project is one of those efforts.
 
 ### Let's Connect
 
-- 💼 [LinkedIn](https://www.linkedin.com/in/grace-okailey-quaye/)
-- 💻 [GitHub](https://github.com/gracequaye1)
-- ✍️ [Dev.to](https://dev.to/the_duchess_of_hackers)
-- 🐦 [X (Twitter)](https://x.com/DuchessCodes)
+-  [LinkedIn](https://www.linkedin.com/in/grace-okailey-quaye/)
+-  [GitHub](https://github.com/gracequaye1)
+-  [Dev.to](https://dev.to/the_duchess_of_hackers)
+-  [X (Twitter)](https://x.com/DuchessCodes)
 
 **Built with 💜 by The Duchess of Hackers.**
 
