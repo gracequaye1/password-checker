@@ -83,7 +83,7 @@ The interface is designed to be:
 
 ---
 
-## 🛠️ Technologies Used
+## Technologies Used
 
 This project was built using core web technologies without relying on external libraries or frameworks.
 
@@ -175,7 +175,7 @@ No additional dependencies or installation processes are required.
 
 ---
 
-## 🧠 What I Learned
+##  What I Learned
 
 Building this project gave me an opportunity to practise both frontend development and fundamental cybersecurity concepts.
 
