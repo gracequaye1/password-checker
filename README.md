@@ -134,7 +134,7 @@ This means the application does not need access to an external service to perfor
 
 ---
 
-## 🚀 Getting Started
+##  Getting Started
 
 Want to explore the project or run it on your own computer?
 
@@ -219,7 +219,7 @@ Remember: A password strength checker is a helpful starting point, not a guarant
 
 ##  About the Developer
 
-**Grace Okailey Quaye — The Duchess of Hackers**
+**The Duchess of Hackers**
 
 I'm a Full-Stack Developer with a growing interest in cybersecurity and a passion for making technology easier to understand.
 
